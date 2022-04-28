@@ -1,6 +1,6 @@
+[![CircleCI](https://circleci.com/gh/benjaminjellis/swoop/tree/master.svg?style=svg)](https://circleci.com/gh/benjaminjellis/swoop/tree/master)
 ![MSRV](https://img.shields.io/badge/msrv-1.60.0-red)
 ![version](https://img.shields.io/badge/version-0.1.0-yellow)
-
 # swoop
 
 Simple, lightweight optimisation algorithms in pure Rust 

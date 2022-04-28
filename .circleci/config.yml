@@ -9,7 +9,7 @@ workflows:
       - rust/lint-test-build:
           release: true
           version: 1.60.0
-          filters:
-            branches:
-              ignore:
-                - master
+          #filters:
+          #  branches:
+          #    ignore:
+          #      - master
