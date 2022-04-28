@@ -1,0 +1,17 @@
+[package]
+name = "swoop"
+version = "0.1.0"
+edition = "2021"
+description = "Simple, lightweight optimisation algorithms in pure Rust "
+authors = ["benjamin ellis <benjaminjellis@protonmail.com>"]
+readme = "README.md"
+repository = "https://github.com/benjaminjellis/swoop"
+license = "MIT"
+keywords = ["optimisation"]
+
+[dependencies]
+anyhow = "1.0.57"
+thiserror = "1.0.30"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["full"] }
