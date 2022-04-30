@@ -179,9 +179,30 @@ pub async fn brent<T: ScalarObjectiveFunction>(
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+    use approx::relative_eq;
 
-    #[test]
-    fn test_this() {
-        // todo
+    #[tokio::test]
+    async fn test_quadratic() -> Result<(), SwoopErrors> {
+        struct QuadraticFunction {}
+
+        impl ScalarObjectiveFunction for QuadraticFunction {
+            fn evaluate(&self, x: f64) -> f64 {
+                (x - 2f64) * x * (x + 2f64).powf(2f64)
+            }
+        }
+
+        let objective_function = QuadraticFunction {};
+        let result = brent(objective_function, None, 500usize).await?;
+        assert_eq!(result.success, true);
+        assert_eq!(
+            relative_eq!(result.fun, -9.914949590828147, epsilon = 1e-12),
+            true
+        );
+        assert_eq!(
+            relative_eq!(result.x, 1.2807764040333458, epsilon = 1e-12),
+            true
+        );
+        Ok(())
     }
 }

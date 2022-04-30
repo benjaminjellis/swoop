@@ -197,10 +197,40 @@ pub async fn bounded<T: ScalarObjectiveFunction>(
 
 #[cfg(test)]
 mod tests {
-    // todo
+    use super::*;
+    use approx::relative_eq;
 
-    #[test]
-    fn test_this() {
-        // todo
+    #[tokio::test]
+    async fn test_quadratic() -> Result<(), SwoopErrors> {
+        struct QuadraticFunction {
+            a: f64,
+            b: f64,
+            c: f64,
+        }
+
+        impl QuadraticFunction {
+            fn new(a: f64, b: f64, c: f64) -> Self {
+                Self { a, b, c }
+            }
+        }
+
+        impl ScalarObjectiveFunction for QuadraticFunction {
+            fn evaluate(&self, x: f64) -> f64 {
+                self.a * x.powf(2f64) + self.b * x + self.c
+            }
+        }
+
+        let objective_function = QuadraticFunction::new(3f64, 4f64, 50f64);
+        let result = bounded(objective_function, (-10f64, 10f64), 500usize).await?;
+        println!("{:?}", result);
+        assert_eq!(
+            relative_eq!(result.fun, 48.666666666666664, epsilon = 1e-6),
+            true
+        );
+        assert_eq!(
+            relative_eq!(result.x, -0.666666666666667, epsilon = 1e-6),
+            true
+        );
+        Ok(())
     }
 }

@@ -17,10 +17,11 @@ To start your Cargo.toml should at least include
 
 ```toml
 [dependencies]
-swoop = {  "git" = "https://github.com/benjaminjellis/swoop"}
+swoop = { "git" = "https://github.com/benjaminjellis/swoop" }
 tokio = { version = "1", features = ["full"] }
 ```
 
+To minimise the function `f(x) = 3x^2 + 4x + 50` in the bound `-10 <= x <= 10` you can use the `bounded` optimiser
 
 ```rust
 use swoop::minimise_scalar::{bounded, ScalarObjectiveFunction};
@@ -51,5 +52,4 @@ async fn main() -> Result<(), SwoopErrors> {
     println!("{:?}", result);
     Ok(())
 }
-
 ```
