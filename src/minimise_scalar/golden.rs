@@ -10,7 +10,7 @@ use crate::SwoopErrors;
 ///
 /// # Errors
 /// Will return `SwoopErrors::MaxIterExceeded` if maximum number of iterations are exceeded before
-/// the optimisation converges or `SwoopErrors::ArgumentError` is passed tolerance `xtol` is negative
+/// the optimisation converges or `SwoopErrors::ArgumentError` if passed tolerance `xtol` is negative
 pub async fn golden<T: ScalarObjectiveFunction>(
     objective_function: T,
     xtol: Option<f64>,

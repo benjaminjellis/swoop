@@ -1,6 +1,6 @@
 [package]
 name = "swoop"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 description = "Simple, lightweight optimisation algorithms in pure Rust "
 authors = ["benjamin ellis <benjaminjellis@protonmail.com>"]
@@ -11,6 +11,7 @@ keywords = ["optimisation"]
 
 [dependencies]
 anyhow = "1.0.57"
+nalgebra = "0.31.0"
 thiserror = "1.0.30"
 
 [dev-dependencies]

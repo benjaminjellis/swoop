@@ -5,7 +5,7 @@
 #![allow(clippy::unused_async)]
 #![allow(clippy::many_single_char_names)]
 
-pub mod minimise_multivariate;
+pub mod minimise;
 pub mod minimise_scalar;
 
 use thiserror::Error;
