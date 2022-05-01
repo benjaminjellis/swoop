@@ -3,13 +3,31 @@ version: 2.1
 orbs:
   rust: circleci/rust@1.6.0
 
+jobs:
+  publish:
+    executor:
+      name: rust/default
+    steps:
+      - checkout
+      - run:
+          name: publish
+          command: cargo publish
+
 workflows:
   test:
     jobs:
       - rust/lint-test-build:
           release: true
           version: 1.60.0
-          #filters:
-          #  branches:
-          #    ignore:
-          #      - master
+          filters:
+            branches:
+              ignore:
+                - master
+
+  deploy:
+    jobs:
+      - publish:
+          filters:
+            branches:
+              only:
+                - master
