@@ -1,15 +1,25 @@
 use crate::minimise::{MultivariateObjectiveFunction, MultivariateOptimisationResult};
 use crate::SwoopErrors;
-use nalgebra::{DMatrix};
+use nalgebra::{clamp, DMatrix, DVector};
 
-struct Bounds {
-    upper: DMatrix<f64>,
-    lower: DMatrix<f64>,
+
+fn min_max(value: f64, min: f64, max: f64) -> f64{
+    if value < min{
+        min
+    }else if value > max { max}
+    else { value }
 }
 
-/// Nelder Mead
+fn clip(mut initial_guess: DVector<f64>, lb: f64, ub: f64) -> DVector<f64> {
+    initial_guess.map(|i| min_max(i, lb, ub))
+}
+
+/// Nelder Mead Simplex
 ///
-/// References
+/// # Parameters
+/// todo
+///
+/// # References
 ///
 /// [1] Gao, F. and Han, L.
 ///
@@ -17,14 +27,14 @@ struct Bounds {
 ///    parameters. 2012. Computational Optimization and Applications.
 ///    51:1, pp. 259-277
 ///
-/// [2] [Scipy](https://github.com/scipy/scipy/blob/8fa4dcae4553fa873c5553e018f80a8a6f5e9948/scipy/optimize/_optimize.py#L635-L888)
+/// [2] [Scipy](https://github.com/scipy/scipy/blob/a6a2fe5e1f612aca080e2a150fd2a4c602ad10b6/scipy/optimize/_optimize.py#L635-L909)
 ///
 ///
 pub async fn nelder_mead<T: MultivariateObjectiveFunction>(
     objective_functions: T,
-    inital_guess: DMatrix<f64>,
+    mut inital_guess: DVector<f64>,
     maxiter: usize,
-    bounds: Option<DMatrix<f64>>,
+    bounds: Option<(f64, f64)>,
     xtol: Option<f64>,
     fatol: Option<f64>,
 ) -> Result<MultivariateOptimisationResult, SwoopErrors> {
@@ -51,16 +61,19 @@ pub async fn nelder_mead<T: MultivariateObjectiveFunction>(
     let nonzdelt = 0.05f64;
     let zdelt = 0.00025f64;
 
-    let formatted_bounds: Option<Bounds>;
 
     if let Some(i) = bounds {
-        // todo why does column_sum() work here to pull out owned data?
-        let m = i.column(0).column_sum().data;
-        let t = m.as_vec();
-        let n = i.column(1).column_sum().data;
-        dbg!(t);
-        dbg!(n);
+        if i.0 > i.1 {
+            return Err(SwoopErrors::ArgumentError(String::from(
+                "The lower bound exceeds the upper bound",
+            )));
+        }
+        inital_guess = clip(inital_guess, i.0, i.1);
     }
+
+    let n = inital_guess.len();
+    let sim = DMatrix::
+
 
     Ok(MultivariateOptimisationResult {
         fun: 0.0,
@@ -75,7 +88,7 @@ mod tests {
     use super::*;
 
     #[tokio::test]
-    async fn test_rosebrock() -> Result<(), SwoopErrors>{
+    async fn test_rosebrock() -> Result<(), SwoopErrors> {
         struct Rosenbrock {}
         impl MultivariateObjectiveFunction for Rosenbrock {
             fn evaluate(&self, x: DMatrix<f64>) -> f64 {
@@ -85,15 +98,9 @@ mod tests {
             }
         }
         let rbf = Rosenbrock {};
-        let ig = DMatrix::from_vec(2, 1, vec![1.0, 2.0]);
-        let bounds =  DMatrix::from_vec(2, 2, vec![-10.0, -10.0, 10.0, 10.0]);
-        let resukt = nelder_mead(rbf,
-                                 ig,
-            500,
-            Some(bounds),
-            None,
-                                 None
-        ).await?;
+        let ig = DVector::from_vec(vec![1.0, -20.0]);
+        let bounds = (-10.0f64, 10.0f64);
+        let resukt = nelder_mead(rbf, ig, 500, Some(bounds), None, None).await?;
         Ok(())
     }
 }

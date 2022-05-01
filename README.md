@@ -1,7 +1,26 @@
-[![CircleCI](https://circleci.com/gh/benjaminjellis/swoop/tree/master.svg?style=svg)](https://circleci.com/gh/benjaminjellis/swoop/tree/master)
-![MSRV](https://img.shields.io/badge/msrv-1.60.0-red)
-![version](https://img.shields.io/badge/version-0.1.0-yellow)
-# swoop
+<p align="center">
+  <img src="assets/logo.png" width="420" height ="150">
+</p>
+
+<p align="center">
+    <a href="https://circleci.com/gh/benjaminjellis/swoop">
+        <img src="https://circleci.com/gh/benjaminjellis/swoop/tree/master.svg?style=svg">
+    </a>
+    <a href="https://crates.io/crates/swoop">
+        <img src="https://img.shields.io/crates/v/swoop.svg">
+    </a>
+    <a href="https://docs.rs/swoop">
+        <img src="https://docs.rs/swoop/badge.svg">
+    </a>
+    <a>
+         <img src="https://img.shields.io/badge/msrv-1.60.0-red">
+    </a>
+    <a>
+        <img src="https://img.shields.io/badge/version-0.1.0-yellow">
+    </a>
+</p>
+
+
 
 Simple, lightweight optimisation algorithms in pure Rust 
 

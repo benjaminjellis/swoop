@@ -11,6 +11,9 @@ use crate::SwoopErrors;
 /// # Errors
 /// Will return `SwoopErrors::MaxIterExceeded` if maximum number of iterations are exceeded before
 /// the optimisation converges or `SwoopErrors::ArgumentError` if passed tolerance `xtol` is negative
+///
+/// # References
+/// [1] [Scipy](https://github.com/scipy/scipy/blob/a6a2fe5e1f612aca080e2a150fd2a4c602ad10b6/scipy/optimize/_optimize.py#L2600-L2707)
 pub async fn golden<T: ScalarObjectiveFunction>(
     objective_function: T,
     xtol: Option<f64>,

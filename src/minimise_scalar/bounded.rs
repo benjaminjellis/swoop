@@ -54,6 +54,10 @@ fn arg_max(a: f64, b: f64) -> f64 {
 ///
 /// # Errors
 /// Will return `SwoopErrors::ArgumentError` is passed tolerance `xtol` is negative
+///
+/// # References
+/// [1] [Scipy](https://github.com/scipy/scipy/blob/a6a2fe5e1f612aca080e2a150fd2a4c602ad10b6/scipy/optimize/_optimize.py#L2082-L2224)
+///
 #[allow(clippy::cast_sign_loss)]
 #[allow(clippy::cast_possible_truncation)]
 #[allow(clippy::cast_precision_loss)]
