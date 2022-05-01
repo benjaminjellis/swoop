@@ -1,12 +1,24 @@
 version: 2.1
 
-orbs:
-  rust: circleci/rust@1.6.0
-
 jobs:
+  test-lint-build:
+    docker:
+      - image: cimg/rust:1.60.0
+    steps:
+      - checkout
+      - run:
+          name: test
+          command: cargo test
+      - run:
+          name: lint
+          command: cargo clippy
+      - run:
+          name: build
+          command: cargo build
+
   publish:
-    executor:
-      name: rust/default
+    docker:
+      - image: cimg/rust:1.60.0
     steps:
       - checkout
       - run:
@@ -16,17 +28,14 @@ jobs:
 workflows:
   test:
     jobs:
-      - rust/lint-test-build:
-          release: true
-          version: 1.60.0
-          filters:
-            branches:
-              ignore:
-                - master
+      - test-lint-build
 
   deploy:
     jobs:
+      - test-lint-build
       - publish:
+          requires:
+            - test-lint-build
           filters:
             branches:
               only:
