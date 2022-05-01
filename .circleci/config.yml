@@ -36,7 +36,12 @@ workflows:
 
   deploy:
     jobs:
-      - test-lint-build
+      - test-lint-build:
+          filters:
+            branches:
+              only:
+                - master
+
       - publish:
           requires:
             - test-lint-build
