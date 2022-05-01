@@ -28,7 +28,11 @@ jobs:
 workflows:
   test:
     jobs:
-      - test-lint-build
+      - test-lint-build:
+          filters:
+            branches:
+              ignore:
+                - master
 
   deploy:
     jobs:
